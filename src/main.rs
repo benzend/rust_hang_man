@@ -23,8 +23,12 @@ fn main() {
 
     println!("Your word is this {} letters long!", word.len());
 
-    for _ in 0..word.len() {
-        print!("_ ");
+    for i in 0..word.len() {
+        if i == word.len() - 1 {
+            println!("_");
+        } else {
+            print!("_ ");
+        }
     }
 
     loop {
