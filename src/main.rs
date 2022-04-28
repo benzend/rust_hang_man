@@ -40,7 +40,7 @@ fn main() {
             .read_line(&mut guessed_letter)
             .expect("to be a string");
 
-        if letter_matches(&guessed_letter, &word) {
+        if letter_matches(&guessed_letter, &word).0 {
             println!("nice!");
         } else {
             println!("oops!");
@@ -59,14 +59,14 @@ fn good_bye() {
     std::process::exit(0);
 }
 
-fn letter_matches(letter: &String, word: &str) -> bool {
+fn letter_matches(letter: &String, word: &str) -> (bool, String) {
     let bytes = word.as_bytes();
 
     for (_, &item) in bytes.iter().enumerate() {
         if item == letter.as_bytes()[0] {
-            return true;
+            return (true, letter.to_string());
         }
     }
 
-    false
+    (false, letter.to_string())
 }
