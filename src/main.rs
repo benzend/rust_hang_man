@@ -20,6 +20,7 @@ fn main() {
     }
 
     let word = "Wunderbar";
+    let word_lowercased = word.to_lowercase();
 
     let mut attempts = 0;
     let mut guessed_letters = String::new();
@@ -37,7 +38,7 @@ fn main() {
         println!("Attempts: {}", attempts);
         print!("Bad letters: ");
         for cw in guessed_letters.chars() {
-            if !found_letter_in(&String::from(word), cw) {
+            if !found_letter_in(&String::from(word).to_lowercase(), cw) {
                 print!("{} ", cw);
             }
         }
@@ -53,13 +54,14 @@ fn main() {
             .read_line(&mut guessed_letter)
             .expect("to be a string");
 
-        if guessed_letters.contains(guessed_letter.trim()) {
+        
+        if guessed_letters.contains(guessed_letter.to_lowercase().trim()) {
             println!("You already tried that letter before");
             println!("");
             continue;
         }
 
-        if word.contains(guessed_letter.trim()) {
+        if word.to_lowercase().contains(guessed_letter.to_lowercase().trim()) {
             println!("nice!");
             println!("");
         } else {
@@ -67,15 +69,15 @@ fn main() {
             println!("");
         }
         
-        guessed_letters.push_str(&guessed_letter.trim());
+        guessed_letters.push_str(guessed_letter.to_lowercase().trim());
         attempts += 1;
 
-        for cw in word.chars() {
-           if found_letter_in(&guessed_letters, cw) {
-               print!("{} ", cw);
-           } else {
-               print!("_ ");
-           }
+        for cw in word_lowercased.chars() {
+            if found_letter_in(&guessed_letters, cw) {
+                print!("{} ", cw);
+            } else {
+                print!("_ ");
+            }
         }
         println!("");
         println!("");
