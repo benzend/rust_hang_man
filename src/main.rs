@@ -22,7 +22,7 @@ fn main() {
     let word = "Wunderbar";
     let word_lowercased = word.to_lowercase();
 
-    let mut attempts = 0;
+    let mut bad_attempts = 0;
     let mut guessed_letters = String::new();
 
     println!("Your word is this {} letters long!", word.len());
@@ -35,7 +35,7 @@ fn main() {
     println!("");
 
     loop {
-        println!("Attempts: {}", attempts);
+        println!("Bad attempts: {}", bad_attempts);
         print!("Bad letters: ");
         for cw in guessed_letters.chars() {
             if !found_letter_in(&String::from(word).to_lowercase(), cw) {
@@ -75,10 +75,10 @@ fn main() {
         } else {
             println!("oops!");
             println!("");
+            bad_attempts += 1;
         }
         
         guessed_letters.push_str(guessed_letter.to_lowercase().trim());
-        attempts += 1;
 
         for cw in word_lowercased.chars() {
             if found_letter_in(&guessed_letters, cw) {
