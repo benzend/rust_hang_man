@@ -56,6 +56,17 @@ fn main() {
                print!("_ ");
            }
         }
+        println!("");
+
+        println!("Bad letters: ");
+        for cw in guessed_letters.chars() {
+            if !found_letter_in(&String::from(word), cw) {
+                print!("{} ", cw);
+            }
+        }
+        println!("")
+
+
     }
 
     
