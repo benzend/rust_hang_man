@@ -85,16 +85,23 @@ fn main() {
         
         guessed_letters.push_str(guessed_letter.to_lowercase().trim());
 
+        let mut empty_spaces: u8 = 0;
+
         for cw in word_lowercased.chars() {
             if found_letter_in(&guessed_letters, cw) {
                 print!("{} ", cw);
             } else {
                 print!("_ ");
+                empty_spaces += 1;
             }
         }
         println!("");
         println!("");
         
+        if empty_spaces == 0 {
+            println!("You win!");
+            good_bye();
+        }
 
 
     }
