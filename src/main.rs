@@ -22,17 +22,16 @@ fn main() {
     let mut guessed_letters = String::new();
 
     println!("Your word is this {} letters long!", word.len());
+    println!("");
 
-    for i in 0..word.len() {
-        if i == word.len() - 1 {
-            println!("_");
-        } else {
-            print!("_ ");
-        }
+    for _ in 0..word.len() {
+        print!("_ ");
     }
+    println!("");
+    println!("");
 
     loop {
-        println!("Bad letters: ");
+        print!("Bad letters: ");
         for cw in guessed_letters.chars() {
             if !found_letter_in(&String::from(word), cw) {
                 print!("{} ", cw);
@@ -44,17 +43,25 @@ fn main() {
         let mut guessed_letter = String::new();
 
         println!("Try a letter");
+        println!("");
 
         io::stdin()
             .read_line(&mut guessed_letter)
             .expect("to be a string");
 
-        if word.contains(guessed_letter.trim()) {
-            println!("nice!");
-        } else {
-            println!("oops!");
+        if guessed_letters.contains(guessed_letter.trim()) {
+            println!("You already tried that letter before");
+            println!("");
+            continue;
         }
 
+        if word.contains(guessed_letter.trim()) {
+            println!("nice!");
+            println!("");
+        } else {
+            println!("oops!");
+            println!("");
+        }
         
         guessed_letters.push_str(&guessed_letter.trim());
 
@@ -66,7 +73,7 @@ fn main() {
            }
         }
         println!("");
-
+        println!("");
         
 
 
