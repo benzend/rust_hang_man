@@ -54,6 +54,14 @@ fn main() {
             .read_line(&mut guessed_letter)
             .expect("to be a string");
 
+
+        if guessed_letter.trim().len() > 1 
+        || guessed_letter.trim().len() == 0
+        || guessed_letter.trim().parse::<f64>().is_ok() {
+            println!("You need to input a valid letter");
+            continue;
+        }
+
         
         if guessed_letters.contains(guessed_letter.to_lowercase().trim()) {
             println!("You already tried that letter before");
