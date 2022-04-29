@@ -25,7 +25,7 @@ fn main() {
     let mut bad_attempts = 0;
     let mut guessed_letters = String::new();
 
-    println!("Your word is this {} letters long!", word.len());
+    println!("Your word is {} letters long!", word.len());
     println!("");
 
     for _ in 0..word.len() {
