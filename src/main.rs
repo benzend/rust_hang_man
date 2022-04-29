@@ -40,13 +40,22 @@ fn main() {
             .read_line(&mut guessed_letter)
             .expect("to be a string");
 
-        if letter_matches(&guessed_letter, &word).0 {
+        if word.contains(guessed_letter.trim()) {
             println!("nice!");
         } else {
             println!("oops!");
         }
 
+        
         guessed_letters.push_str(&guessed_letter.trim());
+
+        for cw in word.chars() {
+           if found_letter_in(&guessed_letters, cw) {
+               print!("{} ", cw);
+           } else {
+               print!("_ ");
+           }
+        }
     }
 
     
@@ -59,14 +68,12 @@ fn good_bye() {
     std::process::exit(0);
 }
 
-fn letter_matches(letter: &String, word: &str) -> (bool, String) {
-    let bytes = word.as_bytes();
-
-    for (_, &item) in bytes.iter().enumerate() {
-        if item == letter.as_bytes()[0] {
-            return (true, letter.to_string());
-        }
+fn found_letter_in(string: &String, c: char) -> bool {
+    for cc in string.chars() {
+        if cc == c {
+            return true;
+        } 
     }
 
-    (false, letter.to_string())
+    false
 }
