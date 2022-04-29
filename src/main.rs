@@ -21,6 +21,7 @@ fn main() {
 
     let word = "Wunderbar";
 
+    let mut attempts = 0;
     let mut guessed_letters = String::new();
 
     println!("Your word is this {} letters long!", word.len());
@@ -33,6 +34,7 @@ fn main() {
     println!("");
 
     loop {
+        println!("Attempts: {}", attempts);
         print!("Bad letters: ");
         for cw in guessed_letters.chars() {
             if !found_letter_in(&String::from(word), cw) {
@@ -66,6 +68,7 @@ fn main() {
         }
         
         guessed_letters.push_str(&guessed_letter.trim());
+        attempts += 1;
 
         for cw in word.chars() {
            if found_letter_in(&guessed_letters, cw) {
