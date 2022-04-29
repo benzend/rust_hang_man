@@ -76,6 +76,11 @@ fn main() {
             println!("oops!");
             println!("");
             bad_attempts += 1;
+
+            if bad_attempts == 10 {
+                println!("You lost!");
+                good_bye();
+            }
         }
         
         guessed_letters.push_str(guessed_letter.to_lowercase().trim());
