@@ -11,10 +11,12 @@ fn main() {
         .read_line(&mut lets_play)
         .expect("Not a string");
 
-    if lets_play == "no" {
+    if lets_play.trim() == "no" {
         good_bye();
-    } else if lets_play == "yes" {
+    } else if lets_play.trim() == "yes" {
         println!("Let's go!");
+    } else {
+        good_bye();
     }
 
     let word = "Wunderbar";
