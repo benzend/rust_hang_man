@@ -32,6 +32,15 @@ fn main() {
     }
 
     loop {
+        println!("Bad letters: ");
+        for cw in guessed_letters.chars() {
+            if !found_letter_in(&String::from(word), cw) {
+                print!("{} ", cw);
+            }
+        }
+        println!("");
+        println!("");
+
         let mut guessed_letter = String::new();
 
         println!("Try a letter");
@@ -58,13 +67,7 @@ fn main() {
         }
         println!("");
 
-        println!("Bad letters: ");
-        for cw in guessed_letters.chars() {
-            if !found_letter_in(&String::from(word), cw) {
-                print!("{} ", cw);
-            }
-        }
-        println!("")
+        
 
 
     }
