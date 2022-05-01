@@ -1,8 +1,16 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
+struct GameInstance {
+    word: str,
+    bad_attempts: u8,
+}
+
+impl GameInstance {
+    fn generate_new_word(&self) {
+        &self.word = "Gutenberg";
+    }
+}
+
+mod hangman {
+    fn start_game() ->  {
+
     }
 }
