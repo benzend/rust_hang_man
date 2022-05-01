@@ -25,5 +25,24 @@ mod hangman {
     fn good_bye() {
         println!("Good bye!");
         std::process::exit(0);
+    },
+    fn hello() {
+        println!("Welcome to hangman!");
+
+        println!("Would you like to play? [yes/no]");
+
+        let mut lets_play = String::new();
+
+        io::stdin()
+            .read_line(&mut lets_play)
+            .expect("Not a string");
+
+        if lets_play.trim() == "no" {
+            good_bye();
+        } else if lets_play.trim() == "yes" {
+            println!("Let's go!");
+        } else {
+            good_bye();
+        }
     }
 }
