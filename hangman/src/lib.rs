@@ -21,5 +21,9 @@ mod hangman {
         }
     
         false
+    },
+    fn good_bye() {
+        println!("Good bye!");
+        std::process::exit(0);
     }
 }
