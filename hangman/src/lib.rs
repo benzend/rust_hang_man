@@ -55,7 +55,7 @@ fn lets_play() -> bool {
         .read_line(&mut play)
         .expect("Not a string");
 
-    let play = play.trim();
+    let play = &play.trim();
 
     if play == "yes" {
         true
