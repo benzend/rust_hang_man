@@ -9,10 +9,13 @@ impl GameInstance {
     }
 }
 
-mod hangman {
-    fn start_game(word str) -> GameInstance {
-        GameInstance{word, bad_attempts: 0}
-    },
+impl GameInstance {
+    fn show_game_details(&self) {
+        println!("Your word is {} letters long!", &self.word.len());
+    }
+}
+
+mod helpers {
     fn found_letter_in(string: &String, c: char) -> bool {
         for cc in string.chars() {
             if cc == c {
@@ -26,23 +29,37 @@ mod hangman {
         println!("Good bye!");
         std::process::exit(0);
     },
-    fn hello() {
-        println!("Welcome to hangman!");
+   
+}
 
-        println!("Would you like to play? [yes/no]");
+pub fn run_game(word str) -> (ended_early: bool) {
+    let play = lets_play();
 
-        let mut lets_play = String::new();
+    if play {
+        println!("Awesome, let's play!");
+    } else {
+        return (ended_early: true);
+    }
 
-        io::stdin()
-            .read_line(&mut lets_play)
-            .expect("Not a string");
+    let mut game = GameInstance{word, bad_attempts: 0};
+}
 
-        if lets_play.trim() == "no" {
-            good_bye();
-        } else if lets_play.trim() == "yes" {
-            println!("Let's go!");
-        } else {
-            good_bye();
-        }
+fn lets_play() -> bool {
+    println!("Welcome to hangman!");
+
+    println!("Would you like to play? [yes/no]");
+
+    let mut play = String::new();
+
+    io::stdin()
+        .read_line(&mut play)
+        .expect("Not a string");
+
+    let play = play.trim();
+
+    if play == "yes" {
+        true
+    } else {
+        false
     }
 }
