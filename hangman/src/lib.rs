@@ -1,4 +1,4 @@
-struct GameInstance {
+pub struct GameInstance {
     word: str,
     bad_attempts: u8,
 }
