@@ -16,6 +16,18 @@ impl GameInstance {
     }
 }
 
+impl GameInstance {
+    fn show_filled_in_word(&self) {
+        for c in self.word.to_lowercase().chars() {
+            if helpers::found_letter_in(&self.guessed_letters, c) {
+                print!("{} ", c);
+            } else {
+                print!("_ ");
+            }
+        }
+    }
+}
+
 mod helpers {
     fn found_letter_in(string: &String, c: char) -> bool {
         for cc in string.chars() {
