@@ -1,12 +1,12 @@
 pub struct GameInstance {
-    word: str,
+    word: String,
     bad_attempts: u8,
     guessed_letters: String,
 }
 
 impl GameInstance {
-    fn generate_new_word(&self) {
-        &self.word = "Gutenberg";
+    fn generate_new_word(&mut self) {
+        self.word = String::from("Gutenberg");
     }
 }
 
@@ -43,8 +43,18 @@ impl GameInstance {
     }
 }
 
+impl GameInstance {
+    fn letter_matches(&self, letter: &String) -> bool {
+        if self.guessed_letters.contains(letter.to_lowercase().trim()) {
+            true
+        } else {
+            false
+        }
+    }
+}
+
 mod helpers {
-    fn found_letter_in(string: &String, c: char) -> bool {
+    pub fn found_letter_in(string: &String, c: char) -> bool {
         for cc in string.chars() {
             if cc == c {
                 return true;
@@ -52,24 +62,59 @@ mod helpers {
         }
     
         false
-    },
+    }
     fn good_bye() {
         println!("Good bye!");
         std::process::exit(0);
-    },
-   
+    }
+
+    pub fn get_letter() -> String {
+        println!("Input your number here");
+
+        let mut guessed_letter = String::new();
+
+        use std::io;
+
+        io::stdin()
+            .read_line(&mut guessed_letter)
+            .expect("to be a string");
+        let guessed_letter = guessed_letter.trim();
+
+        if guessed_letter.len() > 1 
+        || guessed_letter.len() == 0
+        || guessed_letter.parse::<f64>().is_ok() {
+            println!("You need to input a valid letter");
+            return String::new();
+        }
+
+        String::from(guessed_letter)
+    }
 }
 
-pub fn run_game(word str) -> (ended_early: bool) {
+pub fn run_game(word: String) -> bool {
     let play = lets_play();
 
     if play {
         println!("Awesome, let's play!");
     } else {
-        return (ended_early: true);
+        return true;
     }
 
-    let mut game = GameInstance{word, bad_attempts: 0};
+    let mut game = GameInstance{word, bad_attempts: 0, guessed_letters: String::new()};
+
+    game.show_game_details();
+
+    loop {
+        let guessed_letter = helpers::get_letter();
+
+        let matches = game.letter_matches(&guessed_letter);
+
+        if matches {
+            println!("nice");
+        } else {
+            println!("bad");
+        }
+    }
 }
 
 fn lets_play() -> bool {
@@ -79,11 +124,13 @@ fn lets_play() -> bool {
 
     let mut play = String::new();
 
+    use std::io;
+
     io::stdin()
         .read_line(&mut play)
         .expect("Not a string");
 
-    let play = &play.trim();
+    let play = play.trim();
 
     if play == "yes" {
         true
