@@ -28,6 +28,21 @@ impl GameInstance {
     }
 }
 
+impl GameInstance {
+    fn has_won(&self) -> bool {
+        let mut empty_spaces: u8 = 0;
+
+        for c in self.word.to_lowercase().chars() {
+            if helpers::found_letter_in(&self.guessed_letters, c) {
+            } else {
+                empty_spaces += 1;
+            }
+        }
+
+        empty_spaces == 0
+    }
+}
+
 mod helpers {
     fn found_letter_in(string: &String, c: char) -> bool {
         for cc in string.chars() {
