@@ -44,6 +44,17 @@ impl GameInstance {
 }
 
 impl GameInstance {
+    fn guess_attempt(&mut self, guess: &String) -> bool {
+        if self.letter_matches(guess) {
+            true 
+        } else {
+            self.bad_attempts += 1;
+            false
+        }
+    }
+}
+
+impl GameInstance {
     fn letter_matches(&self, letter: &String) -> bool {
         if self.guessed_letters.contains(letter.to_lowercase().trim()) {
             true
