@@ -1,6 +1,7 @@
 pub struct GameInstance {
     word: str,
     bad_attempts: u8,
+    guessed_letters: String,
 }
 
 impl GameInstance {
