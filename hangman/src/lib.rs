@@ -110,8 +110,8 @@ mod helpers {
 }
 
 pub struct GameRes {
-    ended_early: bool,
-    won: bool
+    pub ended_early: bool,
+    pub won: bool
 }
 
 pub fn run_game(word: String) -> GameRes {
