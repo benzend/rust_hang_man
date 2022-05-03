@@ -2,6 +2,7 @@ pub struct GameInstance {
     word: String,
     bad_attempts: u8,
     guessed_letters: String,
+    max_attempts: u8
 }
 
 impl GameInstance {
@@ -45,6 +46,7 @@ impl GameInstance {
 
 impl GameInstance {
     fn guess_attempt(&mut self, guess: &String) -> bool {
+        self.guessed_letters.push_str(&guess);
         if self.letter_matches(guess) {
             true 
         } else {
@@ -56,7 +58,7 @@ impl GameInstance {
 
 impl GameInstance {
     fn letter_matches(&self, letter: &String) -> bool {
-        if self.guessed_letters.contains(letter.to_lowercase().trim()) {
+        if self.word.to_lowercase().contains(letter.to_lowercase().trim()) {
             true
         } else {
             false
@@ -64,7 +66,14 @@ impl GameInstance {
     }
 }
 
+pub struct ValidLetterRes {
+    letter: String,
+    ok: bool
+}
+
 mod helpers {
+    use crate::ValidLetterRes;
+
     pub fn found_letter_in(string: &String, c: char) -> bool {
         for cc in string.chars() {
             if cc == c {
@@ -79,7 +88,7 @@ mod helpers {
         std::process::exit(0);
     }
 
-    pub fn get_letter() -> String {
+    pub fn get_letter() -> ValidLetterRes {
         println!("Input your number here");
 
         let mut guessed_letter = String::new();
@@ -89,43 +98,84 @@ mod helpers {
         io::stdin()
             .read_line(&mut guessed_letter)
             .expect("to be a string");
-        let guessed_letter = guessed_letter.trim();
 
-        if guessed_letter.len() > 1 
-        || guessed_letter.len() == 0
-        || guessed_letter.parse::<f64>().is_ok() {
+        let valid = is_valid_letter(&guessed_letter);
+
+        ValidLetterRes{letter: String::from(&guessed_letter), ok: valid}
+    }
+
+    pub fn is_valid_letter(letter: &String) -> bool {
+        println!("len {}, is_ok {}", letter.len(), letter.parse::<f64>().is_ok());
+        let letter = letter.trim();
+
+        if letter.len() > 1 
+        || letter.len() == 0
+        || letter.parse::<f64>().is_ok() {
             println!("You need to input a valid letter");
-            return String::new();
+            return false;
         }
 
-        String::from(guessed_letter)
+        true
     }
 }
 
-pub fn run_game(word: String) -> bool {
+pub struct GameRes {
+    ended_early: bool,
+    won: bool
+}
+
+pub fn run_game(word: String) -> GameRes {
     let play = lets_play();
 
     if play {
         println!("Awesome, let's play!");
     } else {
-        return true;
+        return GameRes{ ended_early: true, won: false };
     }
 
-    let mut game = GameInstance{word, bad_attempts: 0, guessed_letters: String::new()};
+    let mut game = GameInstance{
+        word, 
+        bad_attempts: 0, 
+        guessed_letters: String::new(),
+        max_attempts: 10
+    };
 
     game.show_game_details();
 
-    loop {
+    let res: GameRes = loop {
+        game.show_filled_in_word();
+
         let guessed_letter = helpers::get_letter();
 
-        let matches = game.letter_matches(&guessed_letter);
+        if !guessed_letter.ok {
+            println!("Invalid letter, try again");
+            continue;
+        };
 
-        if matches {
+        let guessed_letter = String::from(&guessed_letter.letter);
+
+        let correct = game.guess_attempt(&guessed_letter);
+
+        if correct {
             println!("nice");
         } else {
             println!("bad");
         }
-    }
+
+        println!("max {}, bad {}", game.max_attempts, game.bad_attempts);
+
+        if game.bad_attempts == game.max_attempts {
+            println!("You lost!");
+            break GameRes{ ended_early: false, won: false };
+        }
+
+        if game.has_won() {
+            println!("You won!");
+            break GameRes{ ended_early: false, won: false };
+        }
+    };
+
+    res
 }
 
 fn lets_play() -> bool {
