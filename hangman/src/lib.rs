@@ -6,12 +6,6 @@ pub struct GameInstance {
 }
 
 impl GameInstance {
-    fn generate_new_word(&mut self) {
-        self.word = String::from("Gutenberg");
-    }
-}
-
-impl GameInstance {
     fn show_game_details(&self) {
         println!("Your word is {} letters long!", &self.word.len());
     }
@@ -82,10 +76,6 @@ mod helpers {
         }
     
         false
-    }
-    fn good_bye() {
-        println!("Good bye!");
-        std::process::exit(0);
     }
 
     pub fn get_letter() -> ValidLetterRes {
